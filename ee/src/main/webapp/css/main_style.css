@@ -1,0 +1,135 @@
+/* Footer */
+.footer h4 {
+    text-transform: uppercase;
+    font-size: 16px;
+    border-bottom: 1px solid #212529;
+    padding-top: 10px;
+    padding-bottom: 3px;
+
+    /*width: 70%;*/
+}
+
+.footer a {
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.footer a:hover {
+    /*color: #cbcbcb;*/
+    text-decoration: underline;
+}
+
+.footer a, .footer li {
+    /*color: #9b9d9e;*/
+}
+
+/* Footer */
+
+/* Carousel */
+.my-carousel .carousel-item {
+    display: flex;
+    max-height: 500px;
+}
+
+.my-carousel .carousel-inner {
+    max-width: 100%;
+    margin: 0 auto;
+}
+/* Carousel */
+
+/* Main */
+.row div {
+    padding: 10px;
+}
+/* Main */
+
+/* Footer */
+footer a {
+    color: #313131;
+    text-decoration: none;
+}
+/* Footer */
+
+/**
+   login
+ */
+
+/* form */
+.login, .registration, .toPay {
+    width: 400px;
+    margin: 100px auto;
+}
+/* form */
+
+/* ingredients */
+.card-body a {
+    color: #707071;
+    transition: all 0.3s;
+}
+
+.card-body a:hover {
+    color: #4a4a4b;
+}
+
+.price {
+    text-align: right;
+}
+
+span.ruble:after {
+    content: "₽";
+    position: relative;
+    top: -5px;
+    font-size: 12px;
+}
+
+.product-card {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.6);
+    transition: all 0.3s;
+}
+
+.product-card:hover {
+    box-shadow: 0 14px 30px -15px rgba(0, 0, 0, 0.75);
+}
+
+.product-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.product-img img {
+    width: 200px;
+    height: 200px;
+    /*max-width: 80%;*/
+    /*max-height: 80%;*/
+}
+
+/* ingredients */
+
+/* custom-checkbox */
+
+input.custom-checkbox {
+    display: none;
+}
+
+input.custom-checkbox:checked + div.cart-plus {
+    color: #4aca0a;
+    transition: all 0.3s;
+}
+/* custom-checkbox */
+
+/* button */
+div.cart button {
+    width: 100px;
+}
+/* button */
+
+label.requiredNotification::before {
+    content: "*";
+    position: relative;
+    top: -5px;
+    font-size: 12px;
+}
+
+/* coat */
+
+/* coat */
