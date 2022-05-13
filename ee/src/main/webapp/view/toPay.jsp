@@ -19,13 +19,16 @@
 <div class="container toPay">
 
     <form method="post" action="${pageContext.request.contextPath}?where=toPaySuccess" class="row g-3">
+        <div class="card-header font-weight-bold text-center">
+            Оплата товара
+        </div>
         <div class="col-12">
             <label for="creditCardNum" class="form-label">Номер карты</label>
             <input type="text" minlength="16" maxlength="16" class="form-control" id="creditCardNum" name="creditCardNum" placeholder="0000 0000 0000 0000" required>
         </div>
         <div class="col-md-6">
-            <label for="creditCardName" class="form-label">Имя и фамилия</label>
-            <input type="text" class="form-control" id="creditCardName" name="creditCardName" placeholder="Иван Иванов" required>
+            <label for="creditCardName" class="form-label">Имя</label>
+            <input type="text" minlength="3" maxlength="10" class="form-control" id="creditCardName" name="creditCardName" placeholder="Иван" required>
         </div>
         <div class="col-md-6">
             <label for="creditCardDate" class="form-label">Действует до</label>

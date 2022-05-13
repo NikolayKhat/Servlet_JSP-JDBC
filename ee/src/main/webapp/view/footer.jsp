@@ -1,20 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: nnkha
-  Date: 20.04.2022
-  Time: 2:33
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <footer class="bg-light">
     <section class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <h4>О нас</h4>
-                    <div>
+                    <p>
                         Наше TACO лучше всех!
-                    </div>
+                    </p>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <h4>Контактная информация</h4>
@@ -25,9 +19,9 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <h4>Автор</h4>
-                    <div>
+                    <p>
                         Хатуницкий Николай
-                    </div>
+                    </p>
                 </div>
             </div>
         </div>

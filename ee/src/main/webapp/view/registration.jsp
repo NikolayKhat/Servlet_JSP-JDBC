@@ -19,6 +19,9 @@
 <div class="container">
     <div class="registration">
         <form method="post" action="${pageContext.request.contextPath}?where=registrationCheck">
+            <div class="card-header font-weight-bold text-center">
+                Регистрация пользователя
+            </div>
             <div class="mb-3">
                 <label for="loginRegistration" class="form-label requiredNotification">Логин</label>
                 <input type="text" class="form-control" id="loginRegistration" placeholder="Придумайте логин" name="loginRegistration" required>
@@ -31,7 +34,7 @@
                 <label for="passwordReRegistration" class="form-label requiredNotification">Повторите пароль</label>
                 <input type="password" class="form-control" id="passwordReRegistration" placeholder="Подтвердите пароль" name="passwordReRegistration" required>
             </div>
-            <div class="text-center">
+            <div class="text-center" style="padding-bottom: 10px">
                 <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
             </div>
             <div class="mb-3 text-center">

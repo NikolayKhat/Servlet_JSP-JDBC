@@ -43,20 +43,9 @@
                     Цена:
                 </div>
                 <div class="col-6">
-                    ---
+                    <span class="ruble">${listTacoPriceAll}</span>
                 </div>
             </div>
-<%--                <%--%>
-<%--                    String[] strings = request.getParameterValues("ingredients");--%>
-<%--                    if (strings != null) {--%>
-<%--                        for (String str : strings) {--%>
-<%--                            out.print(str + ", ");--%>
-<%--                        }--%>
-<%--                    } else {--%>
-<%--                        out.print("Корзина пуста");--%>
-<%--                    }--%>
-<%--                %>--%>
-
         </div>
         <div class="mb-3 text-center">
             <a href="${pageContext.request.contextPath}?where=home" class="btn btn-primary">OK</a>

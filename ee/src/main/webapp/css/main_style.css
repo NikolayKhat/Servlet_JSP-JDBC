@@ -26,13 +26,13 @@
 
 /* Carousel */
 .my-carousel .carousel-item {
-    display: flex;
-    max-height: 500px;
+    /*display: flex;*/
+    /*min-height: 500px;*/
 }
 
 .my-carousel .carousel-inner {
-    max-width: 100%;
-    margin: 0 auto;
+    /*max-width: 500px;*/
+    /*margin: 0 auto;*/
 }
 /* Carousel */
 
@@ -70,9 +70,6 @@ footer a {
     color: #4a4a4b;
 }
 
-.price {
-    text-align: right;
-}
 
 span.ruble:after {
     content: "₽";
@@ -130,6 +127,8 @@ label.requiredNotification::before {
     font-size: 12px;
 }
 
-/* coat */
-
-/* coat */
+/* cart */
+.cart {
+    min-height: 500px;
+}
+/* cart */

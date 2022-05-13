@@ -20,7 +20,7 @@
     <div class="login">
         <form method="post" action="${pageContext.request.contextPath}?where=loginCheck">
             <div class="card-header font-weight-bold text-center">
-                Авторизация
+                Авторизация пользователя
             </div>
             <div class="mb-3">
                 <label for="userNameLogin" class="form-label requiredNotification">Логин</label>
@@ -30,16 +30,15 @@
                 <label for="passwordLogin" class="form-label requiredNotification">Пароль</label>
                 <input type="password" class="form-control" id="passwordLogin" name="passwordLogin" placeholder="Введите пароль" required>
             </div>
-            <div class="container row mb-3">
-<%--                <div class="col-sm-6 form-check">--%>
-<%--                    <input type="checkbox" class="form-check-input" id="exampleCheck1">--%>
-<%--                    <label class="form-check-label" for="exampleCheck1">Запомнить меня</label>--%>
-<%--                </div>--%>
-                <div class="col-sm-6">
-                    <a href="${pageContext.request.contextPath}?where=registration" style="text-decoration: none">Зарегистрироваться</a>
-                </div>
+            <div style="text-align: right; padding-bottom: 10px">
+                <a href="${pageContext.request.contextPath}?where=registration" style="text-decoration: none">Зарегистрироваться</a>
             </div>
-            <div class="text-center">
+<%--            <div class="row mb-3">--%>
+<%--                <div class="col-sm-6">--%>
+<%--                    <a href="${pageContext.request.contextPath}?where=registration" style="text-decoration: none">Зарегистрироваться</a>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+            <div class="text-center" style="padding-bottom: 10px">
                 <button type="submit" class="btn btn-primary">Войти</button>
             </div>
             <div class="mb-3 text-center">

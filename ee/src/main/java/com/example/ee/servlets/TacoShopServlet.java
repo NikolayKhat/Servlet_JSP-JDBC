@@ -1,19 +1,18 @@
 package com.example.ee.servlets;
 
-import com.example.ee.database.DataBase;
+import com.example.ee.Taco.Taco;
+import com.example.ee.database.Database;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.regex.Pattern;
 
 @WebServlet("/tacoshop")
 public class TacoShopServlet extends HttpServlet {
 
-    private DataBase dataBase = new DataBase();
+    private Database database = new Database("root", "root", "database");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,6 +28,7 @@ public class TacoShopServlet extends HttpServlet {
             case "registration": registration(request, response); break;
             case "toPay": toPay(request, response);break;
             case "logoutCheck": logoutCheck(request, response);break;
+            case "deleteTaco": deleteTaco(request, response);break;
 
         }
     }
@@ -39,21 +39,26 @@ public class TacoShopServlet extends HttpServlet {
 
     private void createTaco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        session.setAttribute("temp", "createTaco");
         /* JPS loginCheck */
         if (session.getAttribute("loginCheck") != null) {
+            session.setAttribute("ingredients", database.createListIngredients());
             request.getRequestDispatcher("/view/createTaco.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("/view/login.jsp").forward(request, response);
+            response.sendRedirect("tacoshop?where=login");
         }
     }
 
     private void cart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String login = (String) session.getAttribute("loginCheck");
+        session.setAttribute("temp", "cart");
         /* JPS loginCheck */
         if (session.getAttribute("loginCheck") != null) {
+            setAttributeCart(request, response, login);
             request.getRequestDispatcher("/view/cart.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("/view/login.jsp").forward(request, response);
+            response.sendRedirect("tacoshop?where=login");
         }
     }
 
@@ -72,8 +77,18 @@ public class TacoShopServlet extends HttpServlet {
 
     private void logoutCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.removeAttribute("loginCheck");
+        session.invalidate();
         response.sendRedirect("tacoshop?where=home");
+    }
+
+    private void deleteTaco(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String login = (String) session.getAttribute("loginCheck");
+
+        database.deleteTaco(login, Integer.valueOf(request.getParameter("id")));
+        setAttributeCart(request, response, login);
+
+        response.sendRedirect("tacoshop?where=cart");
     }
 
     @Override
@@ -83,36 +98,96 @@ public class TacoShopServlet extends HttpServlet {
             case "toPaySuccess": toPaySuccess(request, response);break;
             case "loginCheck": loginCheck(request, response);break;
             case "createTacoCheck": createTacoCheck(request, response);break;
+            case "registrationCheck": registrationCheck(request, response);break;
         }
     }
 
     private void toPaySuccess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/view/toPaySuccess.jsp").forward(request, response);
+        String patternCreditCardNum = "\\d{16}";
+        String patternCreditCartName = "\\D{3,10}";
+        String patternCreditCardDate = "[01]\\d[/]\\d\\d";
+
+        /* проверка на корректность заполнения формы оплаты */
+        if (Pattern.matches(patternCreditCardNum, request.getParameter("creditCardNum")) &&
+                Pattern.matches(patternCreditCartName, request.getParameter("creditCardName")) &&
+                Pattern.matches(patternCreditCardDate, request.getParameter("creditCardDate"))) {
+            request.getRequestDispatcher("/view/toPaySuccess.jsp").forward(request, response);
+
+            HttpSession session = request.getSession();
+            String login = (String) session.getAttribute("loginCheck");
+
+            database.deleteListTaco(login);
+            setAttributeCart(request, response, login);
+        } else {
+            response.sendRedirect("tacoshop?where=toPay");
+        }
     }
 
     private void loginCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (dataBase.checkAccount(request, response)) {
-            session.setAttribute("loginCheck", "admin");
-            response.sendRedirect("tacoshop?where=home");
-        } else {
+
+        String login = request.getParameter("userNameLogin");
+        String password = request.getParameter("passwordLogin");
+
+        boolean check = false;
+
+        if (database.checkLogin(login)) {
+            if (database.checkPassword(login, password)) {
+                session.setAttribute("loginCheck", login);
+                setAttributeCart(request, response, login);
+
+                if (session.getAttribute("temp") == null) session.setAttribute("temp", "home");
+                response.sendRedirect("tacoshop?where=" + session.getAttribute("temp"));
+                check = true;
+            }
+        }
+
+        if (!check) {
             session.setAttribute("loginCheck", null);
             request.getServletContext().getRequestDispatcher("/view/login.jsp").forward(request, response);
         }
     }
 
+    private void registrationCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        String login = request.getParameter("loginRegistration");
+        String password = request.getParameter("passwordRegistration");
+        String passwordRe = request.getParameter("passwordReRegistration");
+
+        boolean check = false;
+
+        if (!database.checkLogin(login)) {
+            if (password.equals(passwordRe)) {
+                database.addUser(login, password);
+                session.setAttribute("loginCheck", login);
+
+                if (session.getAttribute("temp") == null) session.setAttribute("temp", "home");
+                response.sendRedirect("tacoshop?where=" + session.getAttribute("temp"));
+                check = true;
+            }
+        }
+
+        if (!check) request.getServletContext().getRequestDispatcher("/view/registration.jsp").forward(request, response);
+    }
+
     private void createTacoCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        List<String> listIngredients = new ArrayList<>();
-//        listIngredients.add(request.getParameter("ingredients1"));
-//        listIngredients.add(request.getParameter("ingredients2"));
-//        listIngredients.add(request.getParameter("ingredients3"));
-//        listIngredients.add(request.getParameter("ingredients4"));
-//
-//        for (String ingredients : listIngredients) {
-//            System.out.print(ingredients + ", ");
-//        }
+        Taco taco = new Taco(request, response);
+        HttpSession session = request.getSession();
+        String login = (String) session.getAttribute("loginCheck");
+
+        database.addTacoInCart(login, taco);
+        setAttributeCart(request, response, login);
 
         request.getRequestDispatcher("/view/createTaco.jsp").forward(request, response);
     }
 
+    private void setAttributeCart(HttpServletRequest request, HttpServletResponse response, String login) {
+        HttpSession session = request.getSession();
+
+        session.setAttribute("listTacoId", database.createListTacoNumber(login));
+        session.setAttribute("listTacoPrice", database.createListTacoPrice(login));
+        session.setAttribute("listTacoIngredients", database.createListTacoDescription(login));
+        session.setAttribute("listTacoPriceAll", database.createTacoPriceAll(login));
+    }
 }
